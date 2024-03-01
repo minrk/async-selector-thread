@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 import asyncio
-
 import typing
 from typing import Any, Callable, Union
 
 if typing.TYPE_CHECKING:
     from typing import Set  # noqa: F401
+
     from typing_extensions import Protocol
 
     class _HasFileno(Protocol):
@@ -16,6 +16,7 @@ if typing.TYPE_CHECKING:
     _FileDescriptorLike = Union[int, _HasFileno]
 
 from .selector_thread import SelectorThread
+
 
 # AddThreadSelectorEventLoop: unmodified from tornado 6.4.0
 class AddThreadSelectorEventLoop(asyncio.AbstractEventLoop):
@@ -62,17 +63,17 @@ class AddThreadSelectorEventLoop(asyncio.AbstractEventLoop):
         self._real_loop.close()
 
     def add_reader(
-        self, fd: "_FileDescriptorLike", callback: Callable[..., None], *args: Any
+        self, fd: _FileDescriptorLike, callback: Callable[..., None], *args: Any
     ) -> None:
         return self._selector.add_reader(fd, callback, *args)
 
     def add_writer(
-        self, fd: "_FileDescriptorLike", callback: Callable[..., None], *args: Any
+        self, fd: _FileDescriptorLike, callback: Callable[..., None], *args: Any
     ) -> None:
         return self._selector.add_writer(fd, callback, *args)
 
-    def remove_reader(self, fd: "_FileDescriptorLike") -> bool:
+    def remove_reader(self, fd: _FileDescriptorLike) -> bool:
         return self._selector.remove_reader(fd)
 
-    def remove_writer(self, fd: "_FileDescriptorLike") -> bool:
+    def remove_writer(self, fd: _FileDescriptorLike) -> bool:
         return self._selector.remove_writer(fd)

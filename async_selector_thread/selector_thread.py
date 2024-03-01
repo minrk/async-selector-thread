@@ -25,10 +25,6 @@ import typing
 from typing import (
     Any,
     Callable,
-    Dict,
-    List,
-    Optional,
-    Tuple,
     Union,
 )
 
@@ -88,9 +84,9 @@ class SelectorThread:
         self._real_loop = real_loop
 
         self._select_cond = threading.Condition()
-        self._select_args: Optional[tuple[list[_FileDescriptorLike], list[_FileDescriptorLike]]] = None
+        self._select_args: tuple[list[_FileDescriptorLike], list[_FileDescriptorLike]] | None = None
         self._closing_selector = False
-        self._thread: Optional[threading.Thread] = None
+        self._thread: threading.Thread | None = None
         self._thread_manager_handle = self._thread_manager()
 
         async def thread_manager_anext() -> None:
